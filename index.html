@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rookatuste ehitus ja hooldus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="logo">ROOKATUSED</div>
+    <button id="menuToggle" class="menu-toggle" aria-label="Toggle menu">☰</button>
+  </div>
+  <nav id="navMenu">
+    <a href="#about" data-i18n="nav_about"></a>
+    <a href="#services" data-i18n="nav_services"></a>
+    <a href="#gallery" data-i18n="nav_gallery"></a>
+    <a href="#contact" data-i18n="nav_contact"></a>
+    <div class="lang">
+      <button onclick="setLang('et')">EST</button>
+      <button onclick="setLang('en')">ENG</button>
+    </div>
+  </nav>
+</header>
+<main>
+<section id="about" class="hero fade-in">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1 data-i18n="about_title"></h1>
+    <p data-i18n="about_text"></p>
+
+    <div class="hero-buttons">
+      <a href="#contact" class="btn primary">Küsi pakkumist</a>
+      <a href="#gallery" class="btn secondary">Vaata töid</a>
+    </div>
+  </div>
+</section>
+  <section id="services" class="section light fade-in">
+    <div class="container">
+      <h2 data-i18n="services_title"></h2>
+      <div id="servicesGrid" class="services-grid"></div>
+    </div>
+  </section>
+  <section id="gallery" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="gallery_title"></h2>
+      <p data-i18n="gallery_text"></p>
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </div>
+  </section>
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <img class="lightbox-img" src="">
+  </div>
+<section id="contact" class="section contact fade-in">
+  <div class="contact-wrapper">
+
+    <div class="contact-info">
+      <h2>Võta ühendust</h2>
+      <p>Kirjuta meile ja vastame esimesel võimalusel.</p>
+
+      <div class="info-item">📞 +372 5021 388</div>
+      <div class="info-item">✉️ info@melandko.eu</div>
+      <div class="info-item">📍 Eesti</div>
+    </div>
+
+    <form action="https://formspree.io/f/yourID" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="Sinu nimi" required>
+      <input type="email" name="email" placeholder="Sinu email" required>
+      <textarea name="message" placeholder="Sinu sõnum..." required></textarea>
+
+      <button type="submit">Saada päring 🚀</button>
+    </form>
+
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  &copy; 2026 Rookatuste ehitus
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
