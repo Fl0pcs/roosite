@@ -1,4 +1,5 @@
 let lang = "et";
+
 const text = {
   et: {
     nav_about: "Avaleht",
@@ -29,9 +30,21 @@ const text = {
 };
 
 const services = [
-  { title: { et: "Rookatuste ehitus ja hooldus", en: "Reed roof construction and maintenance" }, desc: { et: "Traditsioonilised ja vastupidavad rookatused.", en: "Traditional and durable reed roofs." }, img: "images/euroopa 010.jpg" },
-  { title: { et: "Hooldusniit", en: "Maintenance mowing" }, desc: { et: "Maastikusuutlik ja tõhus roo niitmine.", en: "Professional mowing services on various sites." }, img: "images/kombain.jpg" },
-  { title: { et: "Ekskavaatori tööd", en: "Excavator work" }, desc: { et: "Kaeve- ja giljotiinitööd.", en: "Excavation and cutting work." }, img: "images/traktor2.jpg" }
+  {
+    title: { et: "Rookatuste ehitus ja hooldus", en: "Reed roof construction and maintenance" },
+    desc: { et: "Traditsioonilised ja vastupidavad rookatused.", en: "Traditional and durable reed roofs." },
+    img: "images/euroopa 010.jpg"
+  },
+  {
+    title: { et: "Hooldusniit", en: "Maintenance mowing" },
+    desc: { et: "Maastikusuutlik ja tõhus roo niitmine.", en: "Professional mowing services on various sites." },
+    img: "images/kombain.jpg"
+  },
+  {
+    title: { et: "Ekskavaatori tööd", en: "Excavator work" },
+    desc: { et: "Kaeve- ja giljotiinitööd.", en: "Excavation and cutting work." },
+    img: "images/traktor2.jpg"
+  }
 ];
 
 const gallery = [
@@ -59,6 +72,8 @@ function setLang(l) {
 
 function renderServices() {
   const grid = document.getElementById("servicesGrid");
+  if (!grid) return;
+
   grid.innerHTML = "";
 
   services.forEach(service => {
@@ -78,7 +93,11 @@ function renderServices() {
 function renderGallery() {
   const grid = document.getElementById("galleryGrid");
   const lightbox = document.getElementById("lightbox");
+
+  if (!grid || !lightbox) return;
+
   const lightboxImg = lightbox.querySelector(".lightbox-img");
+  const closeBtn = lightbox.querySelector(".close");
 
   grid.innerHTML = "";
 
@@ -94,9 +113,11 @@ function renderGallery() {
     });
   });
 
-  lightbox.querySelector(".close").onclick = () => {
-    lightbox.style.display = "none";
-  };
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      lightbox.style.display = "none";
+    };
+  }
 
   lightbox.addEventListener("click", e => {
     if (e.target === lightbox) {
@@ -108,22 +129,74 @@ function renderGallery() {
 function scrollAnimation() {
   document.querySelectorAll(".fade-in").forEach(el => {
     const top = el.getBoundingClientRect().top;
+
     if (top < window.innerHeight - 100) {
       el.classList.add("visible");
     }
   });
 }
 
-window.addEventListener("scroll", scrollAnimation);
-
-setLang("et"); // default language
-scrollAnimation();
-
 document.addEventListener("DOMContentLoaded", () => {
+  setLang("et");
+  scrollAnimation();
+
+  window.addEventListener("scroll", scrollAnimation);
+
   const menuToggle = document.getElementById("menuToggle");
   const navMenu = document.getElementById("navMenu");
 
-  menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("open");
-  });
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener("click", () => {
+      navMenu.classList.toggle("open");
+    });
+  }
+
+  const contactForm = document.querySelector(".contact-form");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      const submitButton = contactForm.querySelector("button[type='submit']");
+      const originalButtonText = submitButton.textContent;
+
+      submitButton.disabled = true;
+      submitButton.textContent = lang === "et" ? "Saadan..." : "Sending...";
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: new FormData(contactForm),
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        if (response.ok) {
+          contactForm.reset();
+
+          alert(
+            lang === "et"
+              ? "Aitäh! Sinu päring on edukalt saadetud."
+              : "Thank you! Your message has been sent."
+          );
+        } else {
+          alert(
+            lang === "et"
+              ? "Midagi läks valesti. Palun proovi uuesti."
+              : "Something went wrong. Please try again."
+          );
+        }
+      } catch (error) {
+        alert(
+          lang === "et"
+            ? "Võrguviga. Palun proovi uuesti."
+            : "Network error. Please try again."
+        );
+      }
+
+      submitButton.disabled = false;
+      submitButton.textContent = originalButtonText;
+    });
+  }
 });
